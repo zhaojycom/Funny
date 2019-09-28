@@ -1,6 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--轮播图-->
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/banner_h"
+            android:focusableInTouchMode="true"
+            app:layout_scrollFlags="scroll" />
+
+        <!--工具栏-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="@dimen/mainpage_tools_ptb"
+            android:paddingBottom="@dimen/mainpage_tools_ptb">
+
+            <!--文章-->
+            <RelativeLayout
+                android:id="@+id/article"
+                style="@style/mainPageTools"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/mainPageToolsItem"
+                    android:drawableTop="@mipmap/article"
+                    android:text="@string/article" />
+
+            </RelativeLayout>
+
+            <!--玩图-->
+            <RelativeLayout
+                android:id="@+id/wantu"
+                style="@style/mainPageTools"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/mainPageToolsItem"
+                    android:drawableTop="@mipmap/wantu"
+                    android:text="@string/wantu" />
+
+            </RelativeLayout>
+
+            <!--搜索-->
+            <RelativeLayout
+                android:id="@+id/search"
+                style="@style/mainPageTools"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/mainPageToolsItem"
+                    android:drawableTop="@mipmap/search"
+                    android:text="@string/search" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/articleRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/article_m_t"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

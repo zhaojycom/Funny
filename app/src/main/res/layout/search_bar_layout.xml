@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchBar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_bar_wrap_h"
+    android:layout_marginLeft="@dimen/search_bar_mlr"
+    android:layout_marginRight="@dimen/search_bar_mlr">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/classify_search_bar_h"
+        android:layout_centerInParent="true"
+        android:background="@drawable/classify_searchbar_shape"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/classify_search_box_plr"
+        android:paddingRight="@dimen/classify_search_box_plr">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/classify_search_box_plr"
+            android:src="@mipmap/search_mini" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_input_plant_name"
+            android:textColor="@color/search_box_font" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

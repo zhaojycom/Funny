@@ -21,9 +21,14 @@
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
-
-
-
-
+    <style name="mainPageToolsItem">
+        <item name="android:drawablePadding">@dimen/mainpage_tools_item_p</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/mainpage_tools_font_s</item>
+        <item name="android:textColor">@color/mainpage_tools_font</item>
+    </style>
 
 </resources>

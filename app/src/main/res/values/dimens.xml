@@ -3,7 +3,34 @@
     <dimen name="bottom_navigation_text_size">12dp</dimen>
     <dimen name="bottom_navigation_h">50dp</dimen>
     <dimen name="banner_h">160dp</dimen>
-    <dimen name="titleBarH">50dp</dimen>
-
-
+    <dimen name="title_bar_h">50dp</dimen>
+    <dimen name="search_bar_mlr">16dp</dimen>
+    <dimen name="search_bar_wrap_h">50dp</dimen>
+    <dimen name="classify_search_bar_h">36dp</dimen>
+    <dimen name="classify_search_bar_corners">18dp</dimen>
+    <dimen name="classify_search_box_plr">10dp</dimen>
+    <dimen name="login_input_radius">20dp</dimen>
+    <dimen name="login_input_stroke_w">1px</dimen>
+    <dimen name="vercode_radius">20dp</dimen>
+    <dimen name="classify_left_width">80dp</dimen>
+    <dimen name="left_classify_item_h">50dp</dimen>
+    <dimen name="left_classify_font">12sp</dimen>
+    <dimen name="plant_rv_p">10dp</dimen>
+    <dimen name="left_classify_border_w">4dp</dimen>
+    <dimen name="search_plan_result_ptb">15dp</dimen>
+    <dimen name="plan_item_img_wh">60dp</dimen>
+    <dimen name="plant_item_plant_name_mt">12dp</dimen>
+    <dimen name="plant_item_font">12sp</dimen>
+    <dimen name="article_m_t">10dp</dimen>
+    <dimen name="article_item_mb">10dp</dimen>
+    <dimen name="article_item_p">15dp</dimen>
+    <dimen name="article_item_img_h">200dp</dimen>
+    <dimen name="article_item_mini_m">6dp</dimen>
+    <dimen name="article_item_big_m">16dp</dimen>
+    <dimen name="article_item_type_font_s">10sp</dimen>
+    <dimen name="article_item_title_font_s">18sp</dimen>
+    <dimen name="article_item_brief_content_font_s">12sp</dimen>
+    <dimen name="mainpage_tools_font_s">12sp</dimen>
+    <dimen name="mainpage_tools_ptb">10dp</dimen>
+    <dimen name="mainpage_tools_item_p">4dp</dimen>
 </resources>

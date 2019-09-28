@@ -1,20 +1,20 @@
-package com.zhaojy.funny.ui
+package com.zhaojy.funny.ui.activity
 
 import android.os.Bundle
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
 import com.zhaojy.funny.R
 import com.zhaojy.funny.adapter.ViewPagerAdapter
+import com.zhaojy.funny.helper.StatusBarHelper
 import com.zhaojy.funny.ui.fragment.ClassifyFragment
 import com.zhaojy.funny.ui.fragment.MainFragment
 import com.zhaojy.funny.ui.fragment.MyFragment
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var viewPager: ViewPager
     private lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_main)
+        //设置状态栏字体颜色为深色
+        StatusBarHelper.statusBarLightMode(this, StatusBarHelper.ANDROID_M)
         init()
     }
 

@@ -1,25 +1,13 @@
 package com.zhaojy.funny.view
 
 import android.content.Context
-import android.content.res.TypedArray
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
+import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-
 import androidx.appcompat.widget.AppCompatImageView
-
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable
 import com.zhaojy.funny.R
-
-import android.graphics.Bitmap.createScaledBitmap
 
 /**
  * 自定义圆形图片
@@ -75,6 +63,7 @@ class RoundImageView @JvmOverloads constructor(
      */
     override fun onDraw(canvas: Canvas) {
         val drawable = drawable
+
         if (null != drawable) {
             var bitmap: Bitmap? = null
             if (drawable is BitmapDrawable) {
