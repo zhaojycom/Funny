@@ -1,4 +1,4 @@
-package com.zhaojy.funny.data
+package com.zhaojy.funny.data.repository
 
 import com.zhaojy.funny.data.network.FunnyNetwork
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,8 @@ class ClassifyRepository private constructor(private val network: FunnyNetwork) 
             if (instance == null) {
                 synchronized(ClassifyRepository::class.java) {
                     if (instance == null) {
-                        instance = ClassifyRepository(network)
+                        instance =
+                            ClassifyRepository(network)
                     }
                 }
             }

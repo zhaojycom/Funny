@@ -28,7 +28,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("getBannerImg")
+    @POST("PlantTuDian/system/getBannerImg")
     fun getBannerImgList(): Call<List<String>>
 
     /**
@@ -68,7 +68,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("getArticleList")
+    @POST("PlantTuDian/plant/getArticleList")
     fun getArticleList(@Body requestBody: RequestBody): Call<List<Article>>
 
     /**

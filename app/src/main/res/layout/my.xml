@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/myBanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/my_banner_h"
+        android:background="@mipmap/banner">
+
+        <!--头像昵称-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/avatar_mlb"
+            android:layout_marginLeft="@dimen/avatar_mlb">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar_hw"
+                android:layout_height="@dimen/avatar_hw"
+                android:src="@mipmap/icon" />
+
+            <TextView
+                android:id="@+id/nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/nickname_ml_avatar"
+                android:layout_toRightOf="@id/avatar"
+                android:text=""
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="32dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="center"
+            android:src="@mipmap/menu" />
+
+    </RelativeLayout>
+
+
+    <!--页面栏-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/my_pager_ptb"
+        android:paddingTop="@dimen/my_pager_ptb">
+
+        <TextView
+            android:id="@+id/collect"
+            style="@style/myPagerTv"
+            android:text="@string/collect"
+            android:textColor="@color/theme" />
+
+        <TextView
+            android:id="@+id/history"
+            style="@style/myPagerTv"
+            android:text="@string/history"
+            android:textColor="@color/mainpage_tools_font" />
+
+    </LinearLayout>
+
+    <!--指示器-->
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/my_indicator_h"
+        android:background="@color/theme" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

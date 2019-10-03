@@ -1,8 +1,10 @@
 package com.zhaojy.funny.utils
 
-import com.zhaojy.funny.data.ClassifyRepository
 import com.zhaojy.funny.data.network.FunnyNetwork
-import com.zhaojy.funny.ui.ClassifyModelFactory
+import com.zhaojy.funny.data.repository.ClassifyRepository
+import com.zhaojy.funny.data.repository.MainRepository
+import com.zhaojy.funny.factory.ClassifyModelFactory
+import com.zhaojy.funny.factory.MainModelFactory
 
 
 object InjectorUtil {
@@ -10,6 +12,13 @@ object InjectorUtil {
         FunnyNetwork.getInstance()
     )
 
-    fun getClassifyModelFactory() = ClassifyModelFactory(getClassifyRepository())
+    private fun getMainRepository() = MainRepository.getInstance(
+        FunnyNetwork.getInstance()
+    )
 
+    fun getClassifyModelFactory() =
+        ClassifyModelFactory(getClassifyRepository())
+
+    fun getMainModelFactory() =
+        MainModelFactory(getMainRepository())
 }

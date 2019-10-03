@@ -33,4 +33,10 @@
     <dimen name="mainpage_tools_font_s">12sp</dimen>
     <dimen name="mainpage_tools_ptb">10dp</dimen>
     <dimen name="mainpage_tools_item_p">4dp</dimen>
+    <dimen name="my_indicator_h">2dp</dimen>
+    <dimen name="my_pager_ptb">6dp</dimen>
+    <dimen name="my_banner_h">180dp</dimen>
+    <dimen name="avatar_hw">48dp</dimen>
+    <dimen name="avatar_mlb">14dp</dimen>
+    <dimen name="nickname_ml_avatar">6dp</dimen>
 </resources>

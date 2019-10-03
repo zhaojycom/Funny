@@ -21,6 +21,12 @@ class FunnyNetwork {
     suspend fun getClassifyPlantList(requestBody: RequestBody) =
         funnyService.getClassifyPlantList(requestBody).await()
 
+    suspend fun getBannerImgList() =
+        funnyService.getBannerImgList().await()
+
+    suspend fun getArticleList(requestBody: RequestBody) =
+        funnyService.getArticleList(requestBody).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

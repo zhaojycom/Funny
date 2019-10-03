@@ -1,11 +1,11 @@
-package com.zhaojy.funny.ui
+package com.zhaojy.funny.model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zhaojy.funny.bean.ClassifyBean
 import com.zhaojy.funny.bean.Plant
-import com.zhaojy.funny.data.ClassifyRepository
+import com.zhaojy.funny.data.repository.ClassifyRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 
