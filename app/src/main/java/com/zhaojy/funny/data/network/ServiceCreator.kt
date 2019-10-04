@@ -17,7 +17,6 @@ object ServiceCreator {
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
 
-
     private val retrofit = builder.build()
 
     fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)

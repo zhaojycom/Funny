@@ -1,4 +1,4 @@
-package com.zhaojy.funny.bean
+package com.zhaojy.funny.data.bean
 
 /**
  * @author: zhaojy

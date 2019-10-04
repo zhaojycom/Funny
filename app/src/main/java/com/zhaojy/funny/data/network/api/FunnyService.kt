@@ -1,6 +1,8 @@
 package com.zhaojy.funny.data.network.api
 
 import com.zhaojy.funny.bean.*
+import com.zhaojy.funny.data.bean.Article
+import com.zhaojy.funny.data.bean.User
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -58,7 +60,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("login")
+    @POST("PlantTuDian/user/login")
     fun login(@Body requestBody: RequestBody): Call<User>
 
     /**

@@ -3,7 +3,7 @@ package com.zhaojy.funny.model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zhaojy.funny.bean.Article
+import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.repository.MainRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody

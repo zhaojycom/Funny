@@ -140,7 +140,7 @@ class ClassifyFragment : BaseFragment() {
 
     companion object {
         private val TAG = ClassifyFragment::class.java.simpleName
-        private val LIMIT = 9
+        private val LIMIT = 6
     }
 
 }

@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.zhaojy.funny.R
-import com.zhaojy.funny.bean.Article
+import com.zhaojy.funny.data.bean.Article
 import java.lang.ref.WeakReference
 
 
