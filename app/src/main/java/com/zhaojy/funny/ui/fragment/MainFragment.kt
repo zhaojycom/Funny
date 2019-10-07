@@ -93,8 +93,8 @@ class MainFragment : BaseFragment() {
             } else {
                 mMainArticleAdapter.loadMoreComplete()
             }
+            mOffset += (size - mLastArticleListSize)
             mLastArticleListSize = size
-            mOffset += size
         })
     }
 

@@ -2,6 +2,7 @@ package com.zhaojy.funny.data.network.api
 
 import com.zhaojy.funny.bean.*
 import com.zhaojy.funny.data.bean.Article
+import com.zhaojy.funny.data.bean.Collect
 import com.zhaojy.funny.data.bean.User
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -110,7 +111,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("readBrowseHistory")
+    @POST("PlantTuDian/user/readBrowseHistory")
     fun readHistory(@Body requestBody: RequestBody): Call<List<History>>
 
     /**
@@ -132,16 +133,6 @@ interface FunnyService {
     @Headers("Content-type:application/json;charset=UTF-8")
     @POST("PlantTuDian/plant/getPlantById")
     fun getPlantById(@Body requestBody: RequestBody): Call<Plant>
-
-    /**
-     * 获取收藏信息
-     *
-     * @param requestBody
-     * @return
-     */
-    @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("getCollectInfo")
-    fun getCollectInfo(@Body requestBody: RequestBody): Call<Collect>
 
     /**
      * 收藏
@@ -170,7 +161,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("readCollection")
+    @POST("PlantTuDian/user/readCollection")
     fun readCollect(@Body requestBody: RequestBody): Call<List<Collect>>
 
     /**
@@ -180,7 +171,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("getCollectSum")
+    @POST("PlantTuDian/user/getCollectSum")
     fun getCollectSum(@Body requestBody: RequestBody): Call<Count>
 
     /**
@@ -190,6 +181,6 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("getHistorySum")
+    @POST("PlantTuDian/user/getHistorySum")
     fun getHistorySum(@Body requestBody: RequestBody): Call<Count>
 }

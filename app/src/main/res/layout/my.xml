@@ -56,13 +56,13 @@
         android:paddingTop="@dimen/my_pager_ptb">
 
         <TextView
-            android:id="@+id/collect"
+            android:id="@+id/collectSum"
             style="@style/myPagerTv"
             android:text="@string/collect"
             android:textColor="@color/theme" />
 
         <TextView
-            android:id="@+id/history"
+            android:id="@+id/historySum"
             style="@style/myPagerTv"
             android:text="@string/history"
             android:textColor="@color/mainpage_tools_font" />

@@ -18,6 +18,18 @@ class UserLiveData private constructor() : LiveData<User>() {
 
     }
 
+    public override fun postValue(value: User) {
+        super.postValue(value)
+    }
+
+    public override fun setValue(value: User) {
+        super.setValue(value)
+    }
+
+    public override fun getValue(): User? {
+        return super.getValue()
+    }
+
     companion object {
         private const val TAG = "UserLiveData"
         private var instance: UserLiveData? = null

@@ -4,12 +4,20 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.view.View
 import android.view.Window
+import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.zhaojy.funny.R
+import com.zhaojy.funny.data.bean.User
+import com.zhaojy.funny.model.LoginModel
 import com.zhaojy.funny.utils.DimUtils
+import com.zhaojy.funny.utils.InjectorUtil
 import com.zhaojy.funny.utils.VerCodeUtils
 import kotlinx.android.synthetic.main.login_layout.*
 import java.lang.ref.WeakReference
@@ -20,31 +28,60 @@ import java.lang.ref.WeakReference
  *@data:On 2019/10/4.
  */
 class LoginActivity : BaseActivity() {
-    private val vcu = VerCodeUtils.instance
+    private val mVercodeUtil = VerCodeUtils.instance
+    private lateinit var mLoginModel: LoginModel
+    private lateinit var mPhoneInput: EditText
+    private lateinit var mLoginBtn: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(com.zhaojy.funny.R.layout.login_layout)
+        setContentView(R.layout.login_layout)
+        init()
+    }
+
+    private fun init() {
+        mLoginModel = ViewModelProviders.of(this, InjectorUtil.getLoginModelFactory())
+            .get(LoginModel::class.java)
         setStatusBarTranparent()
+        findViewById()
+        observe()
+        initListener()
         generateVerCode()
         dimBg()
     }
 
-    private fun init() {
-        findViewById()
+    private fun findViewById() {
+        mLoginBtn = findViewById(R.id.login_btn)
+        mPhoneInput = findViewById(R.id.phoneInput)
     }
 
-    private fun findViewById() {
+    private fun observe() {
+        mLoginModel.mUserLiveData.observe(this, Observer {
+            val user: User? = mLoginModel.mUserLiveData.value
+            user?.let {
+                //finish()
+            }
+        })
+    }
 
+    private fun initListener() {
+        mLoginBtn.setOnClickListener {
+            login()
+        }
+    }
+
+    private fun login() {
+        val phoneNumber = mPhoneInput.text.toString()
+        mLoginModel.login(phoneNumber)
     }
 
     /**
-     * 模糊背景处理
+     * 背景模糊
      */
     private fun dimBg() {
         Glide.with(this)
-            .load(com.zhaojy.funny.R.mipmap.login_bg)
+            .load(R.mipmap.login_bg)
             .asBitmap()
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -61,12 +98,13 @@ class LoginActivity : BaseActivity() {
     }
 
     fun generateVerCode() {
-        val codeBitmap = vcu.createBitmap()
+        val codeBitmap = mVercodeUtil.createBitmap()
         verCode.setImageBitmap(codeBitmap)
     }
 
     companion object {
-        private val DIM_RADIUS = 8f
+        private const val TAG = "LoginActivity"
+        private const val DIM_RADIUS = 4f
 
         fun newInstance(activity: BaseActivity) {
             val intent = Intent(activity, LoginActivity::class.java)

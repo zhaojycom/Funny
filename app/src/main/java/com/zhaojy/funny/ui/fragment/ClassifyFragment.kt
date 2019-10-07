@@ -116,8 +116,8 @@ class ClassifyFragment : BaseFragment() {
             } else {
                 mPlantGridRvAdapter.loadMoreComplete()
             }
+            mOffset += (size - mLastPlantListSize)
             mLastPlantListSize = size
-            mOffset += size
         })
     }
 

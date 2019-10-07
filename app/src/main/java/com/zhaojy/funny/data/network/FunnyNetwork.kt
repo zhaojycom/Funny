@@ -27,6 +27,21 @@ class FunnyNetwork {
     suspend fun getArticleList(requestBody: RequestBody) =
         funnyService.getArticleList(requestBody).await()
 
+    suspend fun login(requestBody: RequestBody) =
+        funnyService.login(requestBody).await()
+
+    suspend fun getCollectList(requestBody: RequestBody) =
+        funnyService.readCollect(requestBody).await()
+
+    suspend fun getHistoryList(requestBody: RequestBody) =
+        funnyService.readHistory(requestBody).await()
+
+    suspend fun getCollectSum(requestBody: RequestBody) =
+        funnyService.getCollectSum(requestBody).await()
+
+    suspend fun getHistorySum(requestBody: RequestBody) =
+        funnyService.getHistorySum(requestBody).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

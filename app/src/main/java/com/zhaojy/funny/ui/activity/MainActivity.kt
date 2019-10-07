@@ -81,5 +81,6 @@ class MainActivity : BaseActivity() {
         list.add(ClassifyFragment())
         list.add(MyFragment())
         viewPagerAdapter.setList(list)
+        viewPager.offscreenPageLimit = 2
     }
 }

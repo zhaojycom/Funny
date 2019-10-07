@@ -33,6 +33,5 @@ class ClassifyRepository private constructor(private val network: FunnyNetwork) 
             }
             return instance!!
         }
-
     }
 }

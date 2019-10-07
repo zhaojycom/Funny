@@ -12,5 +12,7 @@
     <color name="black">#000</color>
     <color name="mainpage_tools_font">#555</color>
     <color name="search_box_font">#aaa</color>
+    <color name="dark_theme">#37CE95</color>
+    <color name="transparent">@android:color/transparent</color>
 
 </resources>

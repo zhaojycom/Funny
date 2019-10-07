@@ -3,22 +3,17 @@ package com.zhaojy.funny.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zhaojy.funny.data.repository.LoginRepository
-import com.zhaojy.funny.data.repository.MyRepository
-import com.zhaojy.funny.model.MyModel
-import kotlin.math.log
+import com.zhaojy.funny.model.LoginModel
 
 /**
  *@author: zhaojy
- *@data:On 2019/10/4.
+ *@data:On 2019/10/6.
  */
-class MyModelFactory(
-    private val myRepository: MyRepository,
-    private val loginRepository: LoginRepository
-) :
+class LoginModelFactory(private val repository: LoginRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MyModel(myRepository, loginRepository) as T
+        return LoginModel(repository) as T
     }
 }
