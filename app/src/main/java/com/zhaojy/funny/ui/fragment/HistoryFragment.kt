@@ -13,11 +13,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.zhaojy.funny.R
 import com.zhaojy.funny.adapter.HistoryRvAdapter
+import com.zhaojy.funny.bean.Plant
 import com.zhaojy.funny.bean.ReadHistoryCollectionRequestParams
 import com.zhaojy.funny.constant.Constants
+import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.bean.User
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.model.HistoryModel
+import com.zhaojy.funny.ui.activity.ArticleDetailActivity
+import com.zhaojy.funny.ui.activity.BaseActivity
+import com.zhaojy.funny.ui.activity.PlantActivity
 import com.zhaojy.funny.utils.InjectorUtil
 import okhttp3.RequestBody
 
@@ -83,7 +88,7 @@ class HistoryFragment : BaseFragment() {
         })
         mViewModel.mHistoryListChanged.observe(this, Observer {
             val size = mViewModel.mHistoryList.size
-            mHistoryRvAdapter.notifyDataSetChanged()
+            mHistoryRvAdapter.notifyItemChanged(mLastHistoryListSize, size)
             if (mViewModel.mHistoryList.size == mLastHistoryListSize) {
                 mHistoryRvAdapter.loadMoreEnd()
             } else {
@@ -132,7 +137,21 @@ class HistoryFragment : BaseFragment() {
         mHistoryRv.layoutManager = linearLayoutManager
         mHistoryRv.adapter = mHistoryRvAdapter
         mHistoryRvAdapter.setOnItemClickListener { adapter, view, position ->
-
+            val history = mViewModel.mHistoryList.get(position)
+            when (history.sort) {
+                Constants.ARTICLE -> {
+                    val article = Article()
+                    article.title = history.title
+                    article.articleUrl = history.articleUrl
+                    ArticleDetailActivity.newInstance(activity as BaseActivity, article)
+                }
+                Constants.PLANT -> {
+                    val plant = Plant()
+                    plant.plantName = history.title
+                    plant.articleUrl = history.articleUrl
+                    PlantActivity.newInstance(activity as BaseActivity, plant)
+                }
+            }
         }
         mHistoryRvAdapter.setOnLoadMoreListener({
             getHistoryList()

@@ -52,4 +52,7 @@
     <dimen name="history_item_mb">1dp</dimen>
     <dimen name="title_bar_plr">15dp</dimen>
     <dimen name="history_img_wh">40dp</dimen>
+    <dimen name="search_input_m_lr">30dp</dimen>
+    <dimen name="title_bar_font_s">16sp</dimen>
+    <dimen name="title_bar_elevation">6dp</dimen>
 </resources>

@@ -20,9 +20,10 @@ import com.zhaojy.funny.adapter.MainArticleAdapter
 import com.zhaojy.funny.bean.ClassifyRequestParams
 import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.model.MainModel
+import com.zhaojy.funny.ui.activity.ArticleDetailActivity
+import com.zhaojy.funny.ui.activity.BaseActivity
 import com.zhaojy.funny.utils.InjectorUtil
 import okhttp3.RequestBody
-
 
 /**
  * @author: zhaojy
@@ -87,7 +88,7 @@ class MainFragment : BaseFragment() {
         })
         mViewModel.mArticleChanged.observe(this, Observer {
             val size = mViewModel.mMainArticleList.size
-            mMainArticleAdapter.notifyDataSetChanged()
+            mMainArticleAdapter.notifyItemChanged(mLastArticleListSize, size)
             if (mViewModel.mMainArticleList.size == mLastArticleListSize) {
                 mMainArticleAdapter.loadMoreEnd()
             } else {
@@ -105,6 +106,10 @@ class MainFragment : BaseFragment() {
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         mArticleRecycler.layoutManager = linearLayoutManager
         mMainArticleAdapter.setOnLoadMoreListener({ getArticleList() }, mArticleRecycler)
+        mMainArticleAdapter.setOnItemClickListener { adapter, view, position ->
+            val article = mViewModel.mMainArticleList.get(position)
+            ArticleDetailActivity.newInstance(activity as BaseActivity, article)
+        }
     }
 
     private fun getBannerList() {
@@ -146,6 +151,8 @@ class MainFragment : BaseFragment() {
 
     companion object {
         private val TAG = MainFragment::class.java.simpleName
+        val ARTICLE_URL = "articleUrl"
+        val ID = "id"
     }
 
 }

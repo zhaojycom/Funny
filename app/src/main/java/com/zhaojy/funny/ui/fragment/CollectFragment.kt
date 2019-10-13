@@ -12,11 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.zhaojy.funny.adapter.CollectRvAdapter
+import com.zhaojy.funny.bean.Plant
 import com.zhaojy.funny.bean.ReadHistoryCollectionRequestParams
 import com.zhaojy.funny.constant.Constants
+import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.bean.User
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.model.CollectModel
+import com.zhaojy.funny.ui.activity.ArticleDetailActivity
+import com.zhaojy.funny.ui.activity.BaseActivity
+import com.zhaojy.funny.ui.activity.PlantActivity
 import com.zhaojy.funny.utils.InjectorUtil
 import okhttp3.RequestBody
 
@@ -80,7 +85,7 @@ class CollectFragment : BaseFragment() {
         })
         mViewModel.mCollectListChanged.observe(this, Observer {
             val size = mViewModel.mCollectList.size
-            mCollectRvAdapter.notifyDataSetChanged()
+            mCollectRvAdapter.notifyItemChanged(mLastCollectListSize, size)
             if (mViewModel.mCollectList.size == mLastCollectListSize) {
                 mCollectRvAdapter.loadMoreEnd()
             } else {
@@ -135,7 +140,21 @@ class CollectFragment : BaseFragment() {
         mCollectRv.layoutManager = linearLayoutManager
         mCollectRv.adapter = mCollectRvAdapter
         mCollectRvAdapter.setOnItemClickListener { adapter, view, position ->
-
+            val collect = mViewModel.mCollectList.get(position)
+            when (collect.sort) {
+                Constants.ARTICLE -> {
+                    val article = Article()
+                    article.title = collect.title
+                    article.articleUrl = collect.articleUrl
+                    ArticleDetailActivity.newInstance(activity as BaseActivity, article)
+                }
+                Constants.PLANT -> {
+                    val plant = Plant()
+                    plant.plantName = collect.title
+                    plant.articleUrl = collect.articleUrl
+                    PlantActivity.newInstance(activity as BaseActivity, plant)
+                }
+            }
         }
         mCollectRvAdapter.setOnLoadMoreListener({
             getCollectList()

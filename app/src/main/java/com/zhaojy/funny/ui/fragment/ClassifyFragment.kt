@@ -17,6 +17,8 @@ import com.zhaojy.funny.adapter.LeftClassifyRvAdapter
 import com.zhaojy.funny.bean.ClassifyRequestParams
 import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.model.ClassifyModel
+import com.zhaojy.funny.ui.activity.BaseActivity
+import com.zhaojy.funny.ui.activity.PlantActivity
 import com.zhaojy.funny.utils.InjectorUtil
 import okhttp3.RequestBody
 
@@ -99,7 +101,10 @@ class ClassifyFragment : BaseFragment() {
         val gridLayoutManager = GridLayoutManager(activity, 3)
         mPlantGridRv.layoutManager = gridLayoutManager
         mPlantGridRv.adapter = mPlantGridRvAdapter
-        mPlantGridRvAdapter.setOnItemClickListener { adapter, view, position -> }
+        mPlantGridRvAdapter.setOnItemClickListener { adapter, view, position ->
+            val plant = mViewModel.classifyPlantList.get(position)
+            PlantActivity.newInstance(activity as BaseActivity, plant)
+        }
         mPlantGridRvAdapter.setOnLoadMoreListener({ getClassifyPlantList() }, mPlantGridRv)
     }
 
@@ -110,7 +115,7 @@ class ClassifyFragment : BaseFragment() {
         })
         mViewModel.classifyPlantChanged.observe(this, Observer {
             val size = mViewModel.classifyPlantList.size
-            mPlantGridRvAdapter.notifyDataSetChanged()
+            mPlantGridRvAdapter.notifyItemChanged(mLastPlantListSize, size)
             if (mViewModel.classifyPlantList.size == mLastPlantListSize) {
                 mPlantGridRvAdapter.loadMoreEnd()
             } else {
