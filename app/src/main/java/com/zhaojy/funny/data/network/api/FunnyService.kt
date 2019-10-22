@@ -11,6 +11,8 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 
+
+
 /**
  *@author: zhaojy
  *@data:On 2019/9/21.
@@ -101,7 +103,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("recordBrowseHistory")
+    @POST("PlantTuDian/plant/recordBrowseHistory")
     fun recordHistory(@Body requestBody: RequestBody): Call<String>
 
     /**
@@ -141,7 +143,7 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("collect")
+    @POST("PlantTuDian/plant/collect")
     fun collect(@Body requestBody: RequestBody): Call<Collect>
 
     /**
@@ -151,11 +153,11 @@ interface FunnyService {
      * @return
      */
     @Headers("Content-type:application/json;charset=UTF-8")
-    @POST("cancelCollect")
+    @POST("PlantTuDian/plant/cancelCollect")
     fun cancelCollect(@Body requestBody: RequestBody): Call<Collect>
 
     /**
-     * 读取收藏
+     * 读取用户收藏列表
      *
      * @param requestBody
      * @return
@@ -173,6 +175,16 @@ interface FunnyService {
     @Headers("Content-type:application/json;charset=UTF-8")
     @POST("PlantTuDian/user/getCollectSum")
     fun getCollectSum(@Body requestBody: RequestBody): Call<Count>
+
+    /**
+     * 获取收藏信息
+     *
+     * @param requestBody
+     * @return
+     */
+    @Headers("Content-type:application/json;charset=UTF-8")
+    @POST("PlantTuDian/plant/getCollectInfo")
+    fun getCollectInfo(@Body requestBody: RequestBody): Call<Collect>
 
     /**
      * 获取用户浏览历史总数

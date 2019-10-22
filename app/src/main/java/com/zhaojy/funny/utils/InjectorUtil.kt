@@ -30,6 +30,14 @@ object InjectorUtil {
         FunnyNetwork.getInstance()
     )
 
+    private fun getArticleRepository() = ArticleRepository.getInstance(
+        FunnyNetwork.getInstance()
+    )
+
+    private fun getPlantRepository() = PlantRepository.getInstance(
+        FunnyNetwork.getInstance()
+    )
+
     fun getClassifyModelFactory() =
         ClassifyModelFactory(getClassifyRepository())
 
@@ -43,4 +51,8 @@ object InjectorUtil {
     fun getCollectModelFactory() = CollectModelFactory(getCollectRepository())
 
     fun getHistoryModelFactory() = HistoryModelFactory(getHistoryRepository())
+
+    fun getPlantModelFactory() = PlantModelFactory(getPlantRepository())
+
+    fun getArticleModelFactory() = ArticleModelFactory(getArticleRepository())
 }

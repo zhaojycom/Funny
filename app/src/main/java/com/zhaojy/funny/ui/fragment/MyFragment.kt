@@ -21,6 +21,8 @@ import com.zhaojy.funny.adapter.ViewPagerAdapter
 import com.zhaojy.funny.bean.Count
 import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.User
+import com.zhaojy.funny.data.livedata.CollectLiveData
+import com.zhaojy.funny.data.livedata.HistoryLiveData
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.data.network.ServiceCreator
 import com.zhaojy.funny.model.MyModel
@@ -45,6 +47,8 @@ class MyFragment : BaseFragment() {
     private lateinit var mViewPager: ViewPager
     private lateinit var mCollectSum: TextView
     private lateinit var mHistorySum: TextView
+    private var mCollectLiveData = CollectLiveData.get()
+    private var mHistoryLiveData = HistoryLiveData.get()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,6 +112,12 @@ class MyFragment : BaseFragment() {
         })
         mViewModel.mHistorySumLiveData.observe(this, Observer {
             updateHistorySum()
+        })
+        mCollectLiveData.observe(this, Observer {
+            getCollectSum()
+        })
+        mHistoryLiveData.observe(this, Observer {
+            getHistorySum()
         })
     }
 

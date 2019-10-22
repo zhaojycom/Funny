@@ -17,6 +17,7 @@ import com.zhaojy.funny.bean.ReadHistoryCollectionRequestParams
 import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.bean.User
+import com.zhaojy.funny.data.livedata.CollectLiveData
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.model.CollectModel
 import com.zhaojy.funny.ui.activity.ArticleDetailActivity
@@ -40,7 +41,7 @@ class CollectFragment : BaseFragment() {
     private lateinit var mRefreshLayout: SwipeRefreshLayout
     private var mOffset = 0
     private var mLastCollectListSize = 0
-    private var mLoading: Boolean = false
+    private var mCollectLiveData = CollectLiveData.get()
 
     @Nullable
     override fun onCreateView(
@@ -83,6 +84,9 @@ class CollectFragment : BaseFragment() {
         mUserLiveData.observe(this, Observer {
             refresh()
         })
+        mCollectLiveData.observe(this, Observer {
+            refresh()
+        })
         mViewModel.mCollectListChanged.observe(this, Observer {
             val size = mViewModel.mCollectList.size
             mCollectRvAdapter.notifyItemChanged(mLastCollectListSize, size)
@@ -93,19 +97,14 @@ class CollectFragment : BaseFragment() {
             }
             mOffset += (size - mLastCollectListSize)
             mLastCollectListSize = size
-            mRefreshLayout.isRefreshing = false
-            mLoading = false
+            mRefreshLayout.post { mRefreshLayout.isRefreshing = false }
         })
     }
 
     @Synchronized
     private fun getCollectList() {
-        if (mLoading) {
-            return
-        }
-        mLoading = true
         if (mViewModel.mCollectList.size == 0) {
-            mRefreshLayout.isRefreshing = true
+            mRefreshLayout.post { mRefreshLayout.isRefreshing = true }
         }
         val requestParams = ReadHistoryCollectionRequestParams()
         requestParams.offset = mOffset
@@ -127,9 +126,12 @@ class CollectFragment : BaseFragment() {
         }
     }
 
+    @Synchronized
     private fun refresh() {
         mViewModel.mCollectList.clear()
+        mCollectRvAdapter.notifyDataSetChanged()
         mOffset = 0
+        mLastCollectListSize = 0
         getCollectList()
     }
 

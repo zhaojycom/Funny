@@ -89,6 +89,7 @@ class ClassifyFragment : BaseFragment() {
         mClassifyRvAdapter.notifyDataSetChanged()
         if (mSelectedClassifyId != cb.id) {
             mViewModel.classifyPlantList.clear()
+            mPlantGridRvAdapter.notifyDataSetChanged()
             mOffset = 0
             mLastPlantListSize = 0
         }

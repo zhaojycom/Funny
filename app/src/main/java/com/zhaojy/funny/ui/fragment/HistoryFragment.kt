@@ -18,6 +18,7 @@ import com.zhaojy.funny.bean.ReadHistoryCollectionRequestParams
 import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.bean.User
+import com.zhaojy.funny.data.livedata.HistoryLiveData
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.model.HistoryModel
 import com.zhaojy.funny.ui.activity.ArticleDetailActivity
@@ -40,6 +41,7 @@ class HistoryFragment : BaseFragment() {
     private lateinit var mRefreshLayout: SwipeRefreshLayout
     private var mOffset = 0
     private var mLastHistoryListSize = 0
+    private var mHistoryLiveData = HistoryLiveData.get()
 
     @Nullable
     override fun onCreateView(
@@ -86,6 +88,9 @@ class HistoryFragment : BaseFragment() {
         mUserLiveData.observe(this, Observer {
             refresh()
         })
+        mHistoryLiveData.observe(this, Observer {
+            refresh()
+        })
         mViewModel.mHistoryListChanged.observe(this, Observer {
             val size = mViewModel.mHistoryList.size
             mHistoryRvAdapter.notifyItemChanged(mLastHistoryListSize, size)
@@ -126,7 +131,9 @@ class HistoryFragment : BaseFragment() {
 
     private fun refresh() {
         mViewModel.mHistoryList.clear()
+        mHistoryRvAdapter.notifyDataSetChanged()
         mOffset = 0
+        mLastHistoryListSize = 0
         getHistoryList()
     }
 

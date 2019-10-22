@@ -7,8 +7,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object ServiceCreator {
 
-     const val BASE_URL = "http://118.25.40.227:8080/"
-
+    const val BASE_URL = "http://118.25.40.227:8080/"
+    //const val BASE_URL = "http://192.168.62.5:8080/"
     private val httpClient = OkHttpClient.Builder()
 
     private val builder = Retrofit.Builder()

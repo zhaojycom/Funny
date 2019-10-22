@@ -12,8 +12,18 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.gson.Gson
+import com.zhaojy.funny.bean.CollectionRequestParams
+import com.zhaojy.funny.bean.HistoryRequestParams
+import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.Article
+import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.helper.StatusBarHelper
+import com.zhaojy.funny.model.ArticleModel
+import com.zhaojy.funny.utils.InjectorUtil
+import okhttp3.RequestBody
 
 
 /**
@@ -21,12 +31,14 @@ import com.zhaojy.funny.helper.StatusBarHelper
  * @data:On 2019/10/13.
  */
 class ArticleDetailActivity : BaseActivity() {
-    private lateinit var article: Article
-    private lateinit var back: ImageView
-    private lateinit var title: TextView
-    private lateinit var webView: WebView
-    private lateinit var collect: ImageView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var mArticle: Article
+    private lateinit var mBack: ImageView
+    private lateinit var mTitle: TextView
+    private lateinit var mWebView: WebView
+    private lateinit var mCollect: ImageView
+    private lateinit var mProgressBar: ProgressBar
+    private lateinit var mViewModel: ArticleModel
+    private val mUserLiveData = UserLiveData.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +50,7 @@ class ArticleDetailActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        webView.let {
+        mWebView.let {
             // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
             // destory()
             val parent = it.parent
@@ -56,32 +68,45 @@ class ArticleDetailActivity : BaseActivity() {
     }
 
     private fun init() {
+        mViewModel = ViewModelProviders.of(this, InjectorUtil.getArticleModelFactory())
+            .get(ArticleModel::class.java)
         findViewById()
         getIntentData()
         initPager()
         initListener()
+        recordHistory()
+        observe()
     }
 
     private fun findViewById() {
-        back = findViewById(com.zhaojy.funny.R.id.back);
-        title = findViewById(com.zhaojy.funny.R.id.title);
-        webView = findViewById(com.zhaojy.funny.R.id.webView);
-        collect = findViewById(com.zhaojy.funny.R.id.collect);
-        progressBar = findViewById(com.zhaojy.funny.R.id.progressBar);
+        mBack = findViewById(com.zhaojy.funny.R.id.back)
+        mTitle = findViewById(com.zhaojy.funny.R.id.title)
+        mWebView = findViewById(com.zhaojy.funny.R.id.webView)
+        mCollect = findViewById(com.zhaojy.funny.R.id.collect)
+        mProgressBar = findViewById(com.zhaojy.funny.R.id.progressBar)
     }
 
     private fun getIntentData() {
         val intent = intent
-        article = intent.getParcelableExtra(ARTICLE)
+        mArticle = intent.getParcelableExtra(ARTICLE)
     }
 
     private fun initPager() {
-        title.setText(article.title)
+        mTitle.setText(mArticle.title)
         initWebView()
     }
 
+    private fun observe() {
+        mViewModel.mDataChanged.observe(this, Observer {
+            initCollectIcon()
+        })
+        mUserLiveData.observe(this, Observer {
+            getCollectInfo()
+        })
+    }
+
     private fun initWebView() {
-        val webSettings = webView.settings
+        val webSettings = mWebView.settings
         //设置可支持js
         webSettings.javaScriptEnabled = true
         //设置可在大视野范围内上下左右拖动，并且可以任意比例缩放
@@ -95,29 +120,90 @@ class ArticleDetailActivity : BaseActivity() {
         webSettings.loadWithOverviewMode = true
         //自适应屏幕
         webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-        webView.webViewClient = object : WebViewClient() {
+        mWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
                 return false
             }
         }
-        webView.webChromeClient = object : WebChromeClient() {
+        mWebView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
                 if (progress == 100) {
-                    progressBar.visibility = View.GONE
+                    mProgressBar.visibility = View.GONE
                 }
             }
         }
-        webView.loadUrl(article.articleUrl)
+        mWebView.loadUrl(mArticle.articleUrl)
     }
 
     private fun initListener() {
-        back.setOnClickListener { this.finish() }
+        mBack.setOnClickListener { this.finish() }
+        mCollect.setOnClickListener { collectOrCancelCollect() }
+    }
+
+    private fun getCollectInfo() {
+        val requestParams = HistoryRequestParams()
+        requestParams.userPhone = mUserLiveData.value?.phone
+        requestParams.browseSort = Constants.ARTICLE_SORT
+        requestParams.browseId = mArticle.id
+        val body = RequestBody.create(
+            okhttp3.MediaType.parse(
+                Constants.MEDIATYPE_JSON
+            ), Gson().toJson(requestParams)
+        )
+        mViewModel.getCollectInfo(body)
+    }
+
+    private fun initCollectIcon() {
+        if (mUserLiveData.value == null) {
+            mCollect.visibility = View.GONE
+            return
+        }
+        if (mViewModel.mCollect != null) {
+            //如果该文章已收藏，则显示已收藏图标
+            mCollect.setImageResource(com.zhaojy.funny.R.mipmap.collected)
+        } else {
+            //如果该文章未收藏，则显示未收藏图标
+            mCollect.setImageResource(com.zhaojy.funny.R.mipmap.collect)
+        }
+    }
+
+    private fun collectOrCancelCollect() {
+        if (mViewModel.mCollect == null) {
+            //收藏
+            val requestParams = CollectionRequestParams()
+            requestParams.userPhone = mUserLiveData.value?.phone
+            requestParams.collectSort = Constants.ARTICLE_SORT
+            requestParams.collectId = mArticle.id
+            val body = RequestBody.create(
+                okhttp3.MediaType.parse(
+                    Constants.MEDIATYPE_JSON
+                ), Gson().toJson(requestParams)
+            )
+            mViewModel.collect(body)
+        } else {
+            //取消收藏
+            val id: Int? = mViewModel.mCollect?.id
+            mViewModel.cancelCollect(id)
+        }
+    }
+
+    private fun recordHistory() {
+        val requestParams = HistoryRequestParams()
+        requestParams.browseSort = Constants.ARTICLE_SORT
+        requestParams.userPhone = mUserLiveData.value?.phone
+        requestParams.browseId = mArticle.id
+        val body = RequestBody.create(
+            okhttp3.MediaType.parse(
+                Constants.MEDIATYPE_JSON
+            ), Gson().toJson(requestParams)
+        )
+        mViewModel.recordHistory(body)
     }
 
     companion object {
         private const val TAG = "ArticleDetailActivity"
-        const val ARTICLE = "article"
+        const val ARTICLE = "mArticle"
 
         fun newInstance(activity: BaseActivity, article: Article) {
             val intent = Intent(activity, ArticleDetailActivity::class.java)

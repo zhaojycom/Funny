@@ -42,6 +42,18 @@ class FunnyNetwork {
     suspend fun getHistorySum(requestBody: RequestBody) =
         funnyService.getHistorySum(requestBody).await()
 
+    suspend fun getCollectInfo(requestBody: RequestBody) =
+        funnyService.getCollectInfo(requestBody).await()
+
+    suspend fun collect(requestBody: RequestBody) =
+        funnyService.collect(requestBody).await()
+
+    suspend fun cancelCollect(requestBody: RequestBody) =
+        funnyService.cancelCollect(requestBody).await()
+
+    suspend fun recordHistory(requestBody: RequestBody) =
+        funnyService.recordHistory(requestBody).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
@@ -51,8 +63,7 @@ class FunnyNetwork {
 
                 override fun onResponse(call: Call<T>, response: Response<T>) {
                     val body = response.body()
-                    if (body != null) continuation.resume(body)
-                    else continuation.resumeWithException(RuntimeException("response body is null"))
+                    continuation.resume(body as T)
                 }
             })
         }
