@@ -3,7 +3,6 @@ package com.zhaojy.funny.data.repository
 import com.zhaojy.funny.data.network.FunnyNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.RequestBody
 
 /**
  * @author: zhaojy
@@ -13,10 +12,6 @@ class MainRepository private constructor(private val network: FunnyNetwork) {
 
     suspend fun getBannerImgList() = withContext(Dispatchers.IO) {
         network.getBannerImgList()
-    }
-
-    suspend fun getArticleList(requestBody: RequestBody) = withContext(Dispatchers.IO) {
-        network.getArticleList(requestBody)
     }
 
     companion object {

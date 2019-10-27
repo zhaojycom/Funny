@@ -58,4 +58,8 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="selectableItemBackgroundBorderless">
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>

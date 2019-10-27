@@ -8,22 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.youth.banner.Banner
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import com.zhaojy.funny.R
-import com.zhaojy.funny.adapter.MainArticleAdapter
-import com.zhaojy.funny.bean.ClassifyRequestParams
-import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.model.MainModel
-import com.zhaojy.funny.ui.activity.ArticleDetailActivity
+import com.zhaojy.funny.ui.activity.ArticleClassifyActivity
 import com.zhaojy.funny.ui.activity.BaseActivity
 import com.zhaojy.funny.utils.InjectorUtil
-import okhttp3.RequestBody
 
 /**
  * @author: zhaojy
@@ -31,53 +24,51 @@ import okhttp3.RequestBody
  */
 
 class MainFragment : BaseFragment() {
-    private var root: View? = null
-    private var banner: Banner? = null
+    private var mRootView: View? = null
+    private var mBanner: Banner? = null
+    private var mArticle: View? = null
     private lateinit var mViewModel: MainModel
-    private lateinit var mArticleRecycler: RecyclerView
-    private lateinit var mMainArticleAdapter: MainArticleAdapter
-    private var mOffset = 0
-    private var mLastArticleListSize = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (root == null) {
-            root = inflater.inflate(R.layout.mainpage, container, false)
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.mainpage, container, false)
             init()
         }
 
-        return root
+        return mRootView
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (null != root) {
-            (root!!.parent as ViewGroup).removeView(root)
+        if (null != mRootView) {
+            (mRootView!!.parent as ViewGroup).removeView(mRootView)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 
     private fun init() {
         mViewModel = ViewModelProviders.of(this, InjectorUtil.getMainModelFactory())
             .get(MainModel::class.java)
         findViewById()
         observe()
-        initMainArticle()
+        initListener()
         getBannerList()
-        getArticleList()
     }
 
     private fun findViewById() {
-        root?.let {
-            banner = it.findViewById(R.id.banner)
-            mArticleRecycler = it.findViewById(R.id.articleRecycler)
+        mRootView?.let {
+            mBanner = it.findViewById(R.id.banner)
+            mArticle = it.findViewById(R.id.article)
+        }
+    }
+
+    private fun initListener() {
+        mArticle?.setOnClickListener {
+            ArticleClassifyActivity.newInstance(activity as BaseActivity)
         }
     }
 
@@ -86,54 +77,17 @@ class MainFragment : BaseFragment() {
             //初始化轮播图
             initBanner()
         })
-        mViewModel.mArticleChanged.observe(this, Observer {
-            val size = mViewModel.mMainArticleList.size
-            mMainArticleAdapter.notifyItemChanged(mLastArticleListSize, size)
-            if (mViewModel.mMainArticleList.size == mLastArticleListSize) {
-                mMainArticleAdapter.loadMoreEnd()
-            } else {
-                mMainArticleAdapter.loadMoreComplete()
-            }
-            mOffset += (size - mLastArticleListSize)
-            mLastArticleListSize = size
-        })
-    }
-
-    private fun initMainArticle() {
-        mMainArticleAdapter = MainArticleAdapter(mViewModel.mMainArticleList)
-        mArticleRecycler.adapter = mMainArticleAdapter
-        val linearLayoutManager = LinearLayoutManager(activity)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        mArticleRecycler.layoutManager = linearLayoutManager
-        mMainArticleAdapter.setOnLoadMoreListener({ getArticleList() }, mArticleRecycler)
-        mMainArticleAdapter.setOnItemClickListener { adapter, view, position ->
-            val article = mViewModel.mMainArticleList.get(position)
-            ArticleDetailActivity.newInstance(activity as BaseActivity, article)
-        }
     }
 
     private fun getBannerList() {
         mViewModel.getBannerList()
     }
 
-    private fun getArticleList() {
-        val requestParams = ClassifyRequestParams()
-        requestParams.limit = MainModel.LIMIT
-        requestParams.offset = mOffset
-        requestParams.classifyId = 1
-        val body = RequestBody.create(
-            okhttp3.MediaType.parse(
-                Constants.MEDIATYPE_JSON
-            ), Gson().toJson(requestParams)
-        )
-        mViewModel.getArticleList(body)
-    }
-
     /**
      * 初始化轮播图
      */
     private fun initBanner() {
-        banner?.let {
+        mBanner?.let {
             it.setImages(mViewModel.mBannerImgList).setImageLoader(object : ImageLoader() {
                 override fun displayImage(context: Context, path: Any, imageView: ImageView) {
                     val url = path as String
@@ -143,7 +97,7 @@ class MainFragment : BaseFragment() {
                 }
             })
             //设置轮播时间
-            it.setDelayTime(6000)
+            it.setDelayTime(BANNER_DELAY_TIME)
             it.setBannerAnimation(Transformer.DepthPage)
             it.start()
         }
@@ -151,8 +105,7 @@ class MainFragment : BaseFragment() {
 
     companion object {
         private val TAG = MainFragment::class.java.simpleName
-        val ARTICLE_URL = "articleUrl"
-        val ID = "id"
+        private const val BANNER_DELAY_TIME = 6000
     }
 
 }

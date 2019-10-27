@@ -26,6 +26,7 @@
             android:launchMode="singleTop" />
         <activity android:name=".ui.activity.ArticleDetailActivity" />
         <activity android:name=".ui.activity.PlantActivity" />
+        <activity android:name=".ui.activity.ArticleClassifyActivity" />
     </application>
 
 </manifest>

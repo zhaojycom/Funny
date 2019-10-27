@@ -21,7 +21,7 @@ import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.Article
 import com.zhaojy.funny.data.livedata.UserLiveData
 import com.zhaojy.funny.helper.StatusBarHelper
-import com.zhaojy.funny.model.ArticleModel
+import com.zhaojy.funny.model.ArticleDetailModel
 import com.zhaojy.funny.utils.InjectorUtil
 import okhttp3.RequestBody
 
@@ -37,7 +37,7 @@ class ArticleDetailActivity : BaseActivity() {
     private lateinit var mWebView: WebView
     private lateinit var mCollect: ImageView
     private lateinit var mProgressBar: ProgressBar
-    private lateinit var mViewModel: ArticleModel
+    private lateinit var mViewModel: ArticleDetailModel
     private val mUserLiveData = UserLiveData.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +68,8 @@ class ArticleDetailActivity : BaseActivity() {
     }
 
     private fun init() {
-        mViewModel = ViewModelProviders.of(this, InjectorUtil.getArticleModelFactory())
-            .get(ArticleModel::class.java)
+        mViewModel = ViewModelProviders.of(this, InjectorUtil.getArticleDetailModelFactory())
+            .get(ArticleDetailModel::class.java)
         findViewById()
         getIntentData()
         initPager()
@@ -142,10 +142,10 @@ class ArticleDetailActivity : BaseActivity() {
     }
 
     private fun getCollectInfo() {
-        val requestParams = HistoryRequestParams()
+        val requestParams = CollectionRequestParams()
         requestParams.userPhone = mUserLiveData.value?.phone
-        requestParams.browseSort = Constants.ARTICLE_SORT
-        requestParams.browseId = mArticle.id
+        requestParams.collectSort = Constants.ARTICLE_SORT
+        requestParams.collectId = mArticle.id
         val body = RequestBody.create(
             okhttp3.MediaType.parse(
                 Constants.MEDIATYPE_JSON
@@ -182,7 +182,7 @@ class ArticleDetailActivity : BaseActivity() {
             )
             mViewModel.collect(body)
         } else {
-            //取消收藏
+            //取消收藏u
             val id: Int? = mViewModel.mCollect?.id
             mViewModel.cancelCollect(id)
         }

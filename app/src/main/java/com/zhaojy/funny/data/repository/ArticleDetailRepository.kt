@@ -9,7 +9,7 @@ import okhttp3.RequestBody
  *@author: zhaojy
  *@data:On 2019/10/20.
  */
-class ArticleRepository private constructor(private val network: FunnyNetwork) {
+class ArticleDetailRepository private constructor(private val network: FunnyNetwork) {
 
     suspend fun getCollectInfo(requestBody: RequestBody) = withContext(Dispatchers.IO) {
         network.getCollectInfo(requestBody)
@@ -28,14 +28,14 @@ class ArticleRepository private constructor(private val network: FunnyNetwork) {
     }
 
     companion object {
-        private var instance: ArticleRepository? = null
+        private var instance: ArticleDetailRepository? = null
 
-        fun getInstance(network: FunnyNetwork): ArticleRepository {
+        fun getInstance(network: FunnyNetwork): ArticleDetailRepository {
             if (instance == null) {
-                synchronized(ArticleRepository::class.java) {
+                synchronized(ArticleDetailRepository::class.java) {
                     if (instance == null) {
                         instance =
-                            ArticleRepository(network)
+                            ArticleDetailRepository(network)
                     }
                 }
             }

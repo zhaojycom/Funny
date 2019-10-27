@@ -7,7 +7,7 @@ import com.zhaojy.funny.constant.Constants
 import com.zhaojy.funny.data.bean.Collect
 import com.zhaojy.funny.data.livedata.CollectLiveData
 import com.zhaojy.funny.data.livedata.HistoryLiveData
-import com.zhaojy.funny.data.repository.ArticleRepository
+import com.zhaojy.funny.data.repository.ArticleDetailRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 
@@ -15,7 +15,7 @@ import okhttp3.RequestBody
  *@author: zhaojy
  *@data:On 2019/10/20.
  */
-class ArticleModel(private val repository: ArticleRepository) : ViewModel() {
+class ArticleDetailModel(private val repository: ArticleDetailRepository) : ViewModel() {
     var mCollect: Collect? = null
     var mDataChanged = MutableLiveData(0)
     private var mCollectLiveData = CollectLiveData.get()
@@ -52,7 +52,8 @@ class ArticleModel(private val repository: ArticleRepository) : ViewModel() {
         )
         viewModelScope.launch {
             try {
-                mCollect = repository.cancelCollect(body)
+                repository.cancelCollect(body)
+                mCollect = null
                 mDataChanged.value = mDataChanged.value?.plus(1)
                 mCollectLiveData.setValue(Collect())
             } catch (t: Throwable) {
@@ -70,5 +71,9 @@ class ArticleModel(private val repository: ArticleRepository) : ViewModel() {
                 t.printStackTrace()
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "ArticleDetailModel"
     }
 }

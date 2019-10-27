@@ -75,13 +75,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articleRecycler"
+    <fragment
+        android:id="@+id/article_fragment"
+        android:name="com.zhaojy.funny.ui.fragment.ArticleFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/article_m_t"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

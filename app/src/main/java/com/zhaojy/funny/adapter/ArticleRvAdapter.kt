@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
  *@author: zhaojy
  *@data:On 2019/10/3.
  */
-class MainArticleAdapter : BaseQuickAdapter<Article, BaseViewHolder> {
+class ArticleRvAdapter : BaseQuickAdapter<Article, BaseViewHolder> {
 
     constructor(data: List<Article>?) : super(R.layout.article_item, data) {
 
