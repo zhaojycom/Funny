@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--搜索栏-->
-    <include layout="@layout/search_bar_layout" />
+    <data>
+        <variable
+            name="title"
+            type="String" />
+    </data>
 
-    <!--分割线-->
-    <View
-        android:id="@+id/splitLine"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/searchBar"
-        android:background="@color/themeBk" />
-
-    <!--左侧分类栏-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/leftClassifyRv"
-        android:layout_width="@dimen/classify_left_width"
         android:layout_height="match_parent"
-        android:layout_below="@+id/splitLine"
-        android:background="@color/themeBk"
-        android:scrollbars="none">
+        android:background="@color/white">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <!--搜索栏-->
+        <include layout="@layout/search_bar_layout" />
 
-    <!--右侧内容-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/plantGridRv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/splitLine"
-        android:layout_toEndOf="@+id/leftClassifyRv"
-        android:layout_toRightOf="@+id/leftClassifyRv"
-        android:background="@color/white"
-        android:overScrollMode="never"
-        android:paddingLeft="@dimen/plant_rv_p"
-        android:paddingRight="@dimen/plant_rv_p"
-        android:scrollbars="none">
+        <!--分割线-->
+        <View
+            android:id="@+id/splitLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/searchBar"
+            android:background="@color/themeBk" />
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <!--左侧分类栏-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/leftClassifyRv"
+            android:layout_width="@dimen/classify_left_width"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/splitLine"
+            android:background="@color/themeBk"
+            android:scrollbars="none">
 
-</RelativeLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <!--右侧内容-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/plantGridRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/splitLine"
+            android:layout_toEndOf="@+id/leftClassifyRv"
+            android:layout_toRightOf="@+id/leftClassifyRv"
+            android:background="@color/white"
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/plant_rv_p"
+            android:paddingRight="@dimen/plant_rv_p"
+            android:scrollbars="none">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+</layout>
+

@@ -47,4 +47,8 @@ class ClassifyModel(private val repository: ClassifyRepository) : ViewModel() {
         }
     }
 
+    fun cancelClassifyPlantList(){
+        repository.cancelClassifyPlantList()
+    }
+
 }

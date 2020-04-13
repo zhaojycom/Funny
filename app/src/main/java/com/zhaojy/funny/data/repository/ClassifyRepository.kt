@@ -19,6 +19,10 @@ class ClassifyRepository private constructor(private val network: FunnyNetwork) 
         network.getClassifyPlantList(requestBody)
     }
 
+    fun cancelClassifyPlantList() {
+        network.cancelClassifyPlantList()
+    }
+
     companion object {
         private var instance: ClassifyRepository? = null
 

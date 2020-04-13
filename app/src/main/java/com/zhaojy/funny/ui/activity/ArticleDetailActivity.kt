@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
+import com.tencent.smtt.sdk.WebChromeClient
+import com.tencent.smtt.sdk.WebSettings
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
+import com.zhaojy.funny.R
 import com.zhaojy.funny.bean.CollectionRequestParams
 import com.zhaojy.funny.bean.HistoryRequestParams
 import com.zhaojy.funny.constant.Constants
@@ -43,7 +45,7 @@ class ArticleDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(com.zhaojy.funny.R.layout.article_detail_layout)
+        setContentView(R.layout.article_detail_layout)
         //设置状态栏字体颜色为深色
         StatusBarHelper.statusBarLightMode(this, StatusBarHelper.ANDROID_M)
         init()

@@ -1,13 +1,16 @@
 package com.zhaojy.funny.ui.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.Window
+import androidx.annotation.NonNull
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zhaojy.funny.R
 import com.zhaojy.funny.adapter.ViewPagerAdapter
+import com.zhaojy.funny.databinding.ActivityMainBinding
 import com.zhaojy.funny.helper.StatusBarHelper
 import com.zhaojy.funny.ui.fragment.ClassifyFragment
 import com.zhaojy.funny.ui.fragment.MainFragment
@@ -15,14 +18,18 @@ import com.zhaojy.funny.ui.fragment.MyFragment
 import java.util.*
 
 class MainActivity : BaseActivity() {
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var viewPager: ViewPager
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var mBottomNavigationView: BottomNavigationView
+    private lateinit var mViewPager: ViewPager
+    private lateinit var mViewPagerAdapter: ViewPagerAdapter
+    private var mMenuItem: MenuItem? = null
+    private lateinit var mViewDataBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_main)
+        mViewDataBinding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        title = "Title"
         //设置状态栏字体颜色为深色
         StatusBarHelper.statusBarLightMode(this, StatusBarHelper.ANDROID_M)
         init()
@@ -30,57 +37,71 @@ class MainActivity : BaseActivity() {
 
     private fun init() {
         findViewById()
-        initViewPager()
         //初始化底部导航栏
         initBottomNavigationView()
+        initViewPager()
     }
 
     private fun findViewById() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-        viewPager = findViewById(R.id.viewPager)
+        mBottomNavigationView = mViewDataBinding.bottomNavigationView
+        mViewPager = mViewDataBinding.viewPager
     }
 
     //初始化底部导航栏
     private fun initBottomNavigationView() {
-        val size = resources.getDimension(R.dimen.bottom_navigation_text_size)
-        bottomNavigationView.setTextActiveSize(size)
-        bottomNavigationView.setTextInactiveSize(size)
-        bottomNavigationView.disableShadow()
-        val titles = arrayOf(
-            resources.getString(R.string.main_page),
-            resources.getString(R.string.classify),
-            resources.getString(R.string.my)
-        )
-        val icons = intArrayOf(
-            R.mipmap.mainpage,
-            R.mipmap.classify,
-            R.mipmap.my
-        )
-        val color = resources.getColor(R.color.theme)
-        bottomNavigationView.isColoredBackground(false)
-        bottomNavigationView.setItemActiveColorWithoutColoredBackground(color)
-        //添加item
-        for (i in 0 until titles.size) {
-            val title = titles.get(i)
-            val icon = icons.get(i)
-            val item = BottomNavigationItem(
-                title, color, icon
-            )
-            bottomNavigationView.addTab(item)
-        }
-        bottomNavigationView.setOnBottomNavigationItemClickListener {
-            viewPager.setCurrentItem(it)
-        }
+        mBottomNavigationView.setOnNavigationItemSelectedListener(
+            object : BottomNavigationView.OnNavigationItemSelectedListener {
+                override fun onNavigationItemSelected(@NonNull item: MenuItem): Boolean {
+                    mMenuItem = item
+                    when (item.itemId) {
+                        R.id.mainpage -> {
+                            mViewPager.setCurrentItem(0)
+                            return true
+                        }
+                        R.id.classify -> {
+                            mViewPager.setCurrentItem(1)
+                            return true
+                        }
+                        R.id.my -> {
+                            mViewPager.setCurrentItem(2)
+                            return true
+                        }
+                        else -> {
+                        }
+                    }
+                    return false
+                }
+            })
     }
 
     private fun initViewPager() {
-        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPager.adapter = viewPagerAdapter
+        mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        mViewPager.adapter = mViewPagerAdapter
         val list = ArrayList<Fragment>()
         list.add(MainFragment())
         list.add(ClassifyFragment())
         list.add(MyFragment())
-        viewPagerAdapter.setList(list)
-        viewPager.offscreenPageLimit = 2
+        mViewPagerAdapter.setList(list)
+        mViewPager.offscreenPageLimit = 2
+        mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (mMenuItem != null) {
+                    mMenuItem!!.setChecked(false)
+                } else {
+                    mBottomNavigationView.getMenu().getItem(0).setChecked(false)
+                }
+                mMenuItem = mBottomNavigationView.getMenu().getItem(position)
+                mMenuItem!!.setChecked(true)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
     }
 }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +18,7 @@ import com.zhaojy.funny.adapter.ClassifyPlantGridRvAdapter
 import com.zhaojy.funny.adapter.LeftClassifyRvAdapter
 import com.zhaojy.funny.bean.ClassifyRequestParams
 import com.zhaojy.funny.constant.Constants
+import com.zhaojy.funny.databinding.ClassifyBinding
 import com.zhaojy.funny.model.ClassifyModel
 import com.zhaojy.funny.ui.activity.BaseActivity
 import com.zhaojy.funny.ui.activity.PlantActivity
@@ -27,7 +30,6 @@ import okhttp3.RequestBody
  * @author: zhaojy
  * @data:On 2018/9/15.
  */
-
 class ClassifyFragment : BaseFragment() {
     private var mRootView: View? = null
     private lateinit var mLeftClassifyRv: RecyclerView;
@@ -38,13 +40,18 @@ class ClassifyFragment : BaseFragment() {
     private var mOffset = 0
     private var mSelectedClassifyId = 0
     private var mLastPlantListSize = 0
+    private lateinit var mBinding: ClassifyBinding
 
     @Nullable
     override fun onCreateView(
         inflater: LayoutInflater, @Nullable container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mRootView = inflater.inflate(R.layout.classify, container, false)
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.classify, container, false)
+        mRootView = mBinding.getRoot()
+        mBinding.lifecycleOwner = this
+        mBinding.title = "Title"
+        // mRootView = inflater.inflate(R.layout.classify, container, false)
         init()
         return mRootView
     }
@@ -88,6 +95,9 @@ class ClassifyFragment : BaseFragment() {
         cb.selected = true
         mClassifyRvAdapter.notifyDataSetChanged()
         if (mSelectedClassifyId != cb.id) {
+            if (mSelectedClassifyId != 0) {
+                mViewModel.cancelClassifyPlantList()
+            }
             mViewModel.classifyPlantList.clear()
             mPlantGridRvAdapter.notifyDataSetChanged()
             mOffset = 0
